@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ranking | ProWork</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#ffd23f;--bg:#0b0b0d;--card:#121216;--line:#25252b;--mut:#8a8a93}
+*{box-sizing:border-box;margin:0}
+body{font-family:Archivo,system-ui,sans-serif;background:radial-gradient(ellipse at 50% 0,#1c1812 0,#0b0b0d 55%);color:#fff;min-height:100vh;padding:0 20px 90px}
+.mono{font-family:'JetBrains Mono',monospace}
+header{text-align:center;padding-top:8px}
+.logo{height:56px;display:inline-flex;align-items:stretch;font-weight:800;font-size:40px;line-height:1;letter-spacing:-1px;font-family:Archivo}
+.logo b{padding:2px 8px;background:#e8431a;color:#111}.logo b:last-child{background:#fff;color:#111}
+.logo img{height:56px}
+.live{margin-top:14px;font-size:9px;letter-spacing:3px;color:var(--mut);display:flex;gap:6px;justify-content:center;align-items:center}
+.live i{width:5px;height:5px;border-radius:50%;background:#ff3b30;box-shadow:0 0 6px #ff3b30}
+h1{margin-top:6px;font-size:clamp(30px,5vw,40px);font-weight:700;text-transform:uppercase;background:linear-gradient(90deg,#ffe27a,#ffc20a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.podium{display:flex;justify-content:center;align-items:flex-end;gap:clamp(28px,7vw,90px);margin:36px auto 0;max-width:900px}
+.slot{text-align:center;position:relative}
+.slot .ic{height:26px;margin-bottom:6px;display:flex;justify-content:center;align-items:flex-end}
+.frame{--c1:#fff;--c2:#999;--g:rgba(255,255,255,.35);padding:7px;border-radius:6px;background:linear-gradient(160deg,var(--c1),var(--c2) 50%,var(--c1));box-shadow:0 0 40px var(--g),0 0 90px var(--g);position:relative;width:170px;height:276px}
+.s1 .frame{--c1:#ffd23f;--c2:#b8690a;--g:rgba(255,190,30,.35);width:212px;height:352px}
+.s2 .frame{--c1:#5c8dff;--c2:#1b3fb0;--g:rgba(60,110,255,.4)}
+.s3 .frame{--c1:#f2f4f8;--c2:#80868f;--g:rgba(255,255,255,.3)}
+.frame::before{content:"";position:absolute;inset:3px;border-radius:4px;background:repeating-linear-gradient(0deg,rgba(255,255,255,.95) 0 3px,transparent 3px 46px) left/3px 100% no-repeat,repeating-linear-gradient(0deg,rgba(255,255,255,.95) 0 3px,transparent 3px 46px) right/3px 100% no-repeat;opacity:.8;pointer-events:none}
+.ph{width:100%;height:100%;border-radius:4px;background:#222 center/cover;display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:800;color:#555;overflow:hidden}
+.badge{position:absolute;left:50%;bottom:-13px;transform:translateX(-50%);min-width:42px;padding:3px 12px;border-radius:14px;font-weight:800;font-size:13px;color:#fff;background:linear-gradient(var(--c1),var(--c2));border:2px solid rgba(0,0,0,.45)}
+.s1 .badge{color:#2a1700}.s3 .badge{color:#222}
+.cap{margin-top:30px;font-size:8px;letter-spacing:2px;color:#555;text-transform:uppercase}
+.nm{margin-top:6px;font-weight:700;font-size:15px;text-transform:uppercase}
+.num{font-size:11px;color:var(--gold);margin-top:2px}
+.sec{max-width:1290px;margin:90px auto 0}
+.sh{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:30px}
+.sh h2{font-size:14px;letter-spacing:5px;font-weight:700}.sh span{font-size:11px;color:var(--mut)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.row{display:flex;align-items:center;gap:18px;height:82px;padding:0 18px;background:var(--card);border:1px solid var(--line);border-radius:6px}
+.pos{width:46px;font-size:26px;font-weight:800;color:transparent;-webkit-text-stroke:1.2px #8a6a10;letter-spacing:-1px}
+.av{width:42px;height:54px;border-radius:4px;background:#26262b center/cover;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#aaa;flex:none;overflow:hidden}
+.row .n{font-weight:700;font-size:17px}.row .n small{display:block;font-size:11px;color:var(--mut);font-weight:400}
+.empty{color:var(--mut);text-align:center;padding:40px;grid-column:1/-1}
+#fab{position:fixed;right:14px;bottom:14px;width:42px;height:42px;border-radius:50%;background:#16161a;border:1px solid var(--line);color:#aaa;cursor:pointer;font-size:18px}
+#fab:hover{color:#fff}
+#ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:9}
+#panel{position:fixed;right:0;top:0;bottom:0;width:min(560px,100%);background:#0e0e11;border-left:1px solid var(--line);z-index:10;padding:22px;overflow:auto;transform:translateX(100%);transition:transform .25s}
+body.open #panel{transform:none}body.open #ov{display:block}
+#panel h3{font-size:24px}.edit{font-size:14px;color:var(--mut);margin:6px 0 18px}.edit b{color:var(--gold);font-weight:500}
+.box{border:1px solid var(--line);border-radius:10px;padding:14px;background:#121216;margin-bottom:16px}
+.tog{display:flex;justify-content:space-between;align-items:center}.tog small{display:block;color:var(--mut);font-size:12px}
+.sw{width:46px;height:24px;border-radius:12px;background:#ddd;position:relative;cursor:pointer;flex:none}.sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#555;transition:.2s}.sw.on{background:var(--gold)}.sw.on::after{left:25px;background:#222}
+.tabs{display:flex;background:#121216;border:1px solid var(--line);border-radius:10px;padding:4px;margin-bottom:16px}
+.tabs button{flex:1;padding:9px;border:0;background:none;color:var(--mut);border-radius:8px;font:600 14px Archivo;cursor:pointer}.tabs .a{background:#fff;color:#111}
+input,textarea{background:#1a1a1f;border:1px solid var(--line);border-radius:8px;color:#fff;padding:10px 12px;font:500 14px Archivo;width:100%}
+.add{display:flex;gap:8px}.add input:nth-child(2){width:110px}
+.btn{background:linear-gradient(#ffc933,#f09a00);color:#2a1700;border:0;border-radius:20px;padding:10px 18px;font:700 14px Archivo;cursor:pointer;white-space:nowrap}
+.lnk{background:none;border:0;color:var(--gold);font:500 12px Archivo;cursor:pointer;margin-top:10px;padding:0}
+.hint{font-size:12px;color:var(--mut);margin-bottom:12px}
+.it{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#121216;margin-bottom:10px}
+.it.drag{opacity:.4}.it .g{cursor:grab;color:#555}
+.it .p{width:40px;text-align:center;color:var(--gold);font-weight:700;padding:6px 2px}
+.it .av{cursor:pointer}.it input.nn{width:90px}
+.ib{background:none;border:0;color:#bbb;cursor:pointer;font-size:16px;padding:4px}.ib:hover{color:#fff}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.frame{width:104px;height:170px}.s1 .frame{width:130px;height:216px}.podium{gap:14px}.nm{font-size:12px}}
+</style>
+</head>
+<body>
+<header>
+  <div id="logo"></div>
+  <div class="live mono"><i></i>AO VIVO</div>
+  <h1 id="title"></h1>
+</header>
+<div class="podium" id="podium"></div>
+<section class="sec">
+  <div class="sh"><h2>CLASSIFICAÇÃO GERAL</h2><span class="mono" id="count"></span></div>
+  <div class="grid" id="grid"></div>
+</section>
+<button id="fab" title="Painel do administrador">⚙</button>
+<div id="ov"></div>
+<aside id="panel"></aside>
+<input type="file" id="file" accept="image/*" hidden>
+
+<script>
+const KEY="prowork-ranking-v1";
+const seed=n=>n.split(",").map((x,i)=>({id:"s"+i,name:x.trim(),num:"",photo:""}));
+let S;
+try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!S)S={cur:0,tab:0,showNums:false,logo:"",rk:[{name:"Ranking de Outubro",sellers:seed("JARDEL SC,RODRIGO SC,GEVERSON PR,Ana Beatriz Souza,Marcos Oliveira,Patrícia Alves,Thiago Ferreira,Larissa Gomes,Bruno Carvalho,Fernanda Ribeiro,Diego Martins,Camila Santos")}]};
+const $=id=>document.getElementById(id);
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){alert("Sem espaço para salvar. Use fotos menores.")}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ini=n=>n.split(/\s+/).slice(0,2).map(w=>w[0]||"").join("").toUpperCase();
+const R=()=>S.rk[S.cur];
+const bg=p=>p?`style="background-image:url('${p}')"`:"";
+const crown='<svg width="28" height="22" viewBox="0 0 24 20" fill="none" stroke="#ffd23f" stroke-width="1.6" stroke-linejoin="round"><path d="M2 6l5 4 5-7 5 7 5-4-2 11H4z"/><path d="M4 19h16"/></svg>';
+const medal=c=>`<svg width="20" height="22" viewBox="0 0 24 26" fill="none" stroke="${c}" stroke-width="1.6"><path d="M7 1l5 8 5-8"/><circle cx="12" cy="17" r="7"/><circle cx="12" cy="17" r="3"/></svg>`;
+
+function render(){
+  $("logo").innerHTML=S.logo?`<img class="logo" src="${S.logo}" alt="logo">`:'<div class="logo"><b>PRO</b><b>WORK</b></div>';
+  const r=R(),L=r.sellers;
+  $("title").textContent=r.name.toUpperCase();
+  document.title=r.name+" | ProWork";
+  const info=["Primeiro","Segundo","Terceiro"];
+  const slot=(i,cls,ic)=>{const s=L[i];if(!s)return"";
+    return `<div class="slot ${cls}"><div class="ic">${ic}</div><div class="frame"><div class="ph" ${bg(s.photo)}>${s.photo?"":ini(s.name)}</div><div class="badge">${i+1}º</div></div>
+    <div class="cap mono">${info[i]} lugar</div><div class="nm">${esc(s.name)}</div>${S.showNums&&s.num?`<div class="num mono">nº ${esc(s.num)}</div>`:""}</div>`};
+  $("podium").innerHTML=slot(1,"s2",medal("#5c8dff"))+slot(0,"s1",crown)+slot(2,"s3",medal("#e8e8e8"));
+  $("count").textContent=L.length+" representantes";
+  $("grid").innerHTML=L.length>3?L.slice(3).map((s,i)=>`<div class="row"><div class="pos">${i+4}º</div><div class="av" ${bg(s.photo)}>${s.photo?"":ini(s.name)}</div><div class="n">${esc(s.name)}${S.showNums&&s.num?`<small class="mono">nº ${esc(s.num)}</small>`:""}</div></div>`).join(""):'<div class="empty">Sem mais representantes.</div>';
+  panel();
+}
+
+function panel(){
+  const r=R(),L=r.sellers,t=S.tab;
+  let h=`<div style="display:flex;justify-content:space-between"><h3>Painel do administrador</h3><button class="ib" onclick="tgl(0)">✕</button></div>
+  <div class="edit">Editando: <b>${esc(r.name)}</b></div>
+  <div class="box tog"><div><b>Mostrar números na tela</b><small>Visível somente neste dispositivo (administrador)</small></div><div class="sw ${S.showNums?"on":""}" onclick="S.showNums=!S.showNums;save();render()"></div></div>
+  <div class="tabs">${["Vendedores","Rankings / Meses","Logo"].map((x,i)=>`<button class="${t==i?"a":""}" onclick="S.tab=${i};panel()">${x}</button>`).join("")}</div>`;
+  if(t==0){
+    h+=`<div class="box"><div class="add"><input id="an" placeholder="Nome do vendedor" onkeydown="if(event.key=='Enter')addOne()"><input id="anum" placeholder="Número (opcional)"><button class="btn" onclick="addOne()">+ Adicionar</button></div>
+    <button class="lnk" onclick="bulk()">☰ Adicionar vários de uma vez</button></div>
+    <div class="hint">Arraste para reordenar, use as setas ou digite a posição. Clique na foto para trocar.</div>`;
+    h+=L.map((s,i)=>`<div class="it" draggable="true" data-i="${i}" ondragstart="ds(event)" ondragover="event.preventDefault()" ondrop="dp(event)" ondragend="this.classList.remove('drag')">
+      <span class="g">⠿</span><input class="p" value="${i+1}" onchange="mv(${i},this.value-1)">
+      <div class="av" ${bg(s.photo)} onclick="pick(${i})">${s.photo?"":ini(s.name)}</div>
+      <input value="${esc(s.name)}" onchange="R().sellers[${i}].name=this.value;save();render()">
+      <input class="nn" placeholder="nº" value="${esc(s.num)}" onchange="R().sellers[${i}].num=this.value;save();render()">
+      <button class="ib" ${i?"":"disabled style='opacity:.3'"} onclick="mv(${i},${i-1})">↑</button><button class="ib" ${i<L.length-1?"":"disabled style='opacity:.3'"} onclick="mv(${i},${i+1})">↓</button>
+      <button class="ib" onclick="del(${i})">🗑</button></div>`).join("");
+  }else if(t==1){
+    h+=`<div class="box"><div class="add"><input id="rn" placeholder="Ex.: Ranking de Novembro"><button class="btn" onclick="addRk()">+ Criar</button></div></div>`;
+    h+=S.rk.map((x,i)=>`<div class="it" style="${i==S.cur?"border-color:#ffd23f":""}"><input value="${esc(x.name)}" onchange="S.rk[${i}].name=this.value;save();render()">
+      <button class="btn" onclick="S.cur=${i};save();render()">${i==S.cur?"Em edição":"Editar"}</button><button class="ib" onclick="delRk(${i})">🗑</button></div>`).join("");
+  }else{
+    h+=`<div class="box"><p class="hint">Envie a imagem da sua logo (PNG com fundo transparente funciona melhor).</p><button class="btn" onclick="pick(-1)">Enviar logo</button> ${S.logo?'<button class="lnk" onclick="S.logo=\'\';save();render()">Voltar à logo padrão</button>':""}</div>`;
+  }
+  $("panel").innerHTML=h;
+}
+
+function tgl(v){document.body.classList.toggle("open",v)}
+$("fab").onclick=()=>tgl(1);$("ov").onclick=()=>tgl(0);
+function addOne(){const n=$("an").value.trim();if(!n)return;R().sellers.push({id:"s"+Date.now(),name:n,num:$("anum").value.trim(),photo:""});save();render();$("an").focus()}
+function bulk(){const t=prompt("Cole um nome por linha:");if(!t)return;t.split("\n").map(x=>x.trim()).filter(Boolean).forEach((n,i)=>R().sellers.push({id:"s"+Date.now()+i,name:n,num:"",photo:""}));save();render()}
+function mv(a,b){const L=R().sellers;b=Math.max(0,Math.min(L.length-1,+b));if(isNaN(b))return;L.splice(b,0,L.splice(a,1)[0]);save();render()}
+function del(i){if(confirm("Remover "+R().sellers[i].name+"?")){R().sellers.splice(i,1);save();render()}}
+function addRk(){const n=$("rn").value.trim();if(!n)return;S.rk.push({name:n,sellers:[]});S.cur=S.rk.length-1;S.tab=0;save();render()}
+function delRk(i){if(S.rk.length<2)return alert("Mantenha ao menos um ranking.");if(!confirm("Excluir este ranking?"))return;S.rk.splice(i,1);S.cur=0;save();render()}
+let from=null;
+function ds(e){from=+e.currentTarget.dataset.i;e.currentTarget.classList.add("drag")}
+function dp(e){e.preventDefault();const to=+e.currentTarget.dataset.i;if(from!=null&&from!==to)mv(from,to);from=null}
+let target=null;
+function pick(i){target=i;$("file").value="";$("file").click()}
+$("file").onchange=e=>{const f=e.target.files[0];if(!f)return;const im=new Image(),u=URL.createObjectURL(f);
+  im.onload=()=>{const max=target<0?400:500,k=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");
+    c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+    const d=c.toDataURL(target<0&&f.type=="image/png"?"image/png":"image/jpeg",.85);
+    if(target<0)S.logo=d;else R().sellers[target].photo=d;save();render();URL.revokeObjectURL(u)};im.src=u};
+render();
+</script>
+</body>
+</html>
